@@ -1,0 +1,195 @@
+<html>
+    <head>
+        <title>Who's Better at Math</title>
+
+        <!font from Google fonts>
+
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+        
+        <!accessing css from bootstrap cdn>
+        <!like a website template>
+
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+        
+        <!sets margins and font>
+        <style type="text/css">
+            body {
+                margin-left: 25%;
+                margin-right: 25%;
+                font-family: "Open Sans", sans-serif;
+            }
+        </style>
+
+       <!accessing a javascript file>
+       <!see startTime stuff below for actualy java script>
+        <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+
+        <! firebase link to see data live>
+
+        <script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
+
+    </head>
+
+    <body>
+
+    	<!The DIV tag is used to group block-elements to format them with CSS>
+
+
+    	<!makes five multiplication problems>
+
+        <div class="page-header">
+            <h3>Finish the following five multiplication questions as fast as possible. When you are done, submit as either male or female. </h3>
+        </div>
+
+        <!creates a bootstrap alert>
+        <!hides it for now, will show when there are wrong answers in the if else statement below>
+
+        <div class="alert alert-warning" style = "display: none;"> Not all your asnwers are correct. Keep working.  </div>
+
+        <!creates a bootstrap alert>
+        <!hides it for now, will show when all answers are correct in the if else statement below>
+
+        <div class="alert alert-success" style = "display: none;" >Good Work! </div>
+
+
+
+
+
+        <!input is user entry>
+
+        <div class="input-group"> 
+            <span class="input-group-addon"> 9 x 3 =</span>
+
+            <!span is the math problem it self>
+            <!setting IDs to each user input>
+
+            <input type="text" class="form-control" style="width: 60px;" id = "no1">
+        </div>
+
+        <!BR line break>
+        
+        <br>
+
+        <div class="input-group">
+            <span class="input-group-addon">  4 x 8 =</span>
+            <input type="text" class="form-control" style="width: 60px;" id = "no2">
+        </div>
+        <br>
+
+
+        <div class="input-group">
+            <span class="input-group-addon">5 x 5 =</span>
+            <input type="text" class="form-control" style="width: 60px;" id = "no3">
+        </div>
+        <br>
+
+
+        <div class="input-group">
+            <span class="input-group-addon">9 x 4 =</span>
+            <input type="text" class="form-control" style="width: 60px;" id = "no4">
+        </div>
+        <br>
+
+        <div class="input-group">
+            <span class="input-group-addon"> 3 x 9 =</span>
+            <input type="text" class="form-control" style="width: 60px;" id = "no5">
+        </div>
+
+        <hr> 
+
+        <! HR tag is a line divider>
+
+        <!buttons to submit as male of female>
+        <!male is blue = primary>
+        <!female is red = danger>
+        <!you have to write "btn btn-COLOR" bc other wise it will make a rectangular button, this is a reguar button that looks nice>
+
+        <p class="btn btn-primary btn-male">Submit as male</p>
+        <p class="btn btn-danger btn-female">Submit as female</p>
+
+
+        <!This is the real javascript>
+        <!alerts user with button is pressed>
+        <!the alert will tell the number of secs between page being loaded and button clicked>
+        <!this is found thru subtracting the startTime from the exact time the page is clicked>
+
+
+        <!making variables that are the user inupts of the above questions>
+        <!setting ID to each user input as assigning varables to them down here>
+        <!so that we can print out user inputs>
+
+        <!$btn line starts a function and does everything below it when button is clicked>
+
+        <script type = "text/javascript">
+        	var startTime = Date.now();
+
+            var myFirebaseRef = new Firebase("https://speed-math.firebaseIO.com/");
+
+            //responsing to male clicks
+            
+        	$(".btn-male").click(function() {
+
+            var answerOne = $("#no1").val();
+            var answerTwo = $("#no2").val();
+            var answerThree = $("#no3").val();
+            var answerFour = $("#no4").val();
+            var answerFive = $("#no5").val();
+
+            var timeSpent = (((Date.now() - startTime)/ 1000));
+
+            if(answerOne == 27 && answerTwo == 32 && answerThree == 25 && answerFour == 36 && answerFive == 27 ){
+
+                    alert(timeSpent + " seconds. Good Job!");
+
+                    var object = {
+                        gender : 'male', 
+                        time: timeSpent
+                    };
+
+                    myFirebaseRef.push(object);
+                
+            } else {
+                $(".alert-warning").show();
+            }
+        });
+
+            //responding to female clicks
+
+            $(".btn-female").click(function() {
+
+            var answerOne = $("#no1").val();
+            var answerTwo = $("#no2").val();
+            var answerThree = $("#no3").val();
+            var answerFour = $("#no4").val();
+            var answerFive = $("#no5").val();
+
+            var timeSpent = (((Date.now() - startTime)/ 1000) - 3);
+
+            if(answerOne == 27 && answerTwo == 32 && answerThree == 25 && answerFour == 36 && answerFive == 27 ){
+
+                    alert(timeSpent + " seconds. Good Job!");
+
+                    var object = {
+                        gender : 'female', 
+                        time: timeSpent
+                    };
+
+                    myFirebaseRef.push(object);
+                
+            } else {
+                $(".alert-warning").show();
+            }
+        });
+
+
+        
+        		
+        	
+        	</script>
+
+
+    </body>
+
+</html>
